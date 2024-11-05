@@ -38,7 +38,7 @@ function authState(req, res, next){
 
 //Global Routes
 app.use("/Dashboard", authState(), Dashboard);
-app.use("/EmployeeManagement", authState(),EmployeeManagement)
+app.use("/EmployeeManagement",EmployeeManagement)
 app.use("/LeaveApproval", authState(), LeaveApproval)
 app.use("/LocationMapping", authState(), LocationMapping)
 app.use("/Authenticate", Authenticate)

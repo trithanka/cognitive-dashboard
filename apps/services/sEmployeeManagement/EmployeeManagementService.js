@@ -193,6 +193,8 @@ exports.add = co.wrap(async function (postParam, user) {
       console.error(error);
       throw new Error("Internal Server Error(" + error.message + "-SEnmsEmployeeEAS-G10)");
     }
+    console.log(postParam.employee_id);
+    
     if (!postParam.firstName || postParam.firstName == null || postParam.firstName == undefined || postParam.firstName.length == 0) {
       resultObj.status = "error"
       resultObj.message = "First Name cannot be blank"
@@ -237,26 +239,6 @@ exports.add = co.wrap(async function (postParam, user) {
       resultObj.status = "error"
       resultObj.message = "PIN cannot be blank"
     }
-    else if (postParam.emergencyContactName == null || postParam.emergencyContactName == undefined || postParam.emergencyContactName.length == 0) {
-      resultObj.status = "error"
-      resultObj.message = "Emergency Contact Name cannot be blank"
-    }
-    else if (postParam.relationship == null || postParam.relationship == undefined || postParam.relationship.length == 0) {
-      resultObj.status = "error"
-      resultObj.message = "Emergency Contact Relationship cannot be blank"
-    }
-    else if (postParam.emergencyContactNumber == null || postParam.emergencyContactNumber == undefined) {
-      resultObj.status = "error"
-      resultObj.message = "Emergency Contact Phone Number cannot be blank"
-    }
-    else if (postParam.emergencyHomeAddress == null || postParam.emergencyHomeAddress == undefined) {
-      resultObj.status = "error"
-      resultObj.message = "Emergency Contact Home Address cannot be blank"
-    }
-    else if (postParam.emergencyHomeAddress && postParam.emergencyHomeAddress.length < 50) {
-      resultObj.status = "error"
-      resultObj.message = "Emergency Contact Home Address cannot be less than 50 characters"
-    }
     else if (postParam.designation == null || postParam.designation == undefined || postParam.designation.length == 0) {
       resultObj.status = "error"
       resultObj.message = "Designation cannot be blank"
@@ -265,19 +247,7 @@ exports.add = co.wrap(async function (postParam, user) {
       resultObj.status = "error"
       resultObj.message = "Date of Joining cannot be blank"
     }
-    else if (postParam.department == null || postParam.department == undefined || postParam.department.length == 0) {
-      resultObj.status = "error"
-      resultObj.message = "Department cannot be blank"
-    }
-    // //supervisor
-    // else if (postParam.supervisorsName2 == null || postParam.supervisorsName2 == undefined || postParam.supervisorsName2.length == 0) {
-    //   resultObj.status = "error"
-    //   resultObj.message = "Supervisor2 Name cannot be blank"
-    // }
-    // else if (postParam.supervisorsName1 == null || postParam.supervisorsName1 == undefined || postParam.supervisorsName1.length == 0) {
-    //   resultObj.status = "error"
-    //   resultObj.message = "Supervisor1 Name cannot be blank"
-    // } 
+    
     else {
       try {
         try {
@@ -340,7 +310,7 @@ exports.add = co.wrap(async function (postParam, user) {
         /************************************************************************* */
 
         try {
-          queryResultObj.loginCreation = await connection.query(mysqlCon, query.loginCreation, ['EMP00000' + queryResultObj.personal.insertId, queryResultObj.personal.insertId])
+          queryResultObj.loginCreation = await connection.query(mysqlCon, query.loginCreation, [ queryResultObj.personal.insertId, queryResultObj.personal.insertId])
 
           // const employeeId = `EMP${String(queryResultObj.appLogin.insertId).padStart(6, '0')}`;
           // queryResultObj.loginCreation = await connection.query(mysqlCon, query.loginCreation, [employeeId, queryResultObj.appLogin.insertId]);
@@ -351,12 +321,12 @@ exports.add = co.wrap(async function (postParam, user) {
         }
         /************************************************************************* */
 
-        try {
-          queryResultObj.loginDeletion = await connection.query(mysqlCon, query.loginDeletion, [user.id])
-        } catch (error) {
-          console.error(error);
-          throw new Error("Internal Server Error(" + error.message + "-SEnmsEmployeeEAS-G10)");
-        }
+        // try {
+        //   queryResultObj.loginDeletion = await connection.query(mysqlCon, query.loginDeletion, [user.id])
+        // } catch (error) {
+        //   console.error(error);
+        //   throw new Error("Internal Server Error(" + error.message + "-SEnmsEmployeeEAS-G10)");
+        // }
         /************************************************************************* */
         try {
           queryResultObj.leaveAlloted = await connection.query(mysqlCon, query.leaveAlloted, [queryResultObj.personal.insertId, 15, 15, 180])
@@ -385,7 +355,7 @@ exports.add = co.wrap(async function (postParam, user) {
       }
       resultObj.status = "success"
       resultObj.formDisabled = true
-      resultObj.message = "Registration Details Captured Successfully. Employee ID is EMP00000" + queryResultObj.personal.insertId
+      resultObj.message = "Registration Details Captured Successfully. Employee ID is " + queryResultObj.personal.insertId
 
     }
     return resultObj;

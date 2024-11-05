@@ -175,7 +175,7 @@ Router.post('/location/history',checkRole([1]), (req, res) => {
     });
 });
 
-Router.post('/add', checkRole([1]),(req, res) => {
+Router.post('/add', (req, res) => {
     var result = [];
     co(async function () {
         try {
@@ -190,7 +190,7 @@ Router.post('/add', checkRole([1]),(req, res) => {
     });
 });
 
-Router.post('/master',checkRole([0,1]), (req, res) => {
+Router.post('/master', (req, res) => {
     var result = [];
     co(async function () {
         try {

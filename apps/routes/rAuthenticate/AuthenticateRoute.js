@@ -67,6 +67,7 @@ Router.post('/add', (req, res) => {
     });
 });
 
+
 Router.post('/update', (req, res) => {
     var result = [];
     co(async function () {
@@ -86,6 +87,20 @@ Router.post('/delete', (req, res) => {
     co(async function () {
         try {
             result = await service.delete(req.body);
+            res.send(result);
+        } catch (error) {
+            console.log(error);
+            result.message = error.message;
+            res.send(error);
+        }
+    });
+});
+
+Router.post('/master', (req, res) => {
+    var result = [];
+    co(async function () {
+        try {
+            result = await service.master(req.body);
             res.send(result);
         } catch (error) {
             console.log(error);
